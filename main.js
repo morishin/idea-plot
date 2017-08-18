@@ -18,6 +18,7 @@ const allItems = [];
     if (e.keyCode == 189) { decreaseFontSize(); } // -
     if (e.keyCode == 187) { increaseFontSize(); } // +
     if (e.keyCode == 65 && e.metaKey) { selectAll(); } // ⌘A
+    if (e.keyCode == 67) { toggleColorOfSelections(); } // c
   }, false);
 })();
 
@@ -128,6 +129,25 @@ function increaseFontSize() {
 function decreaseFontSize() {
   allItems.forEach(function (item) {
     item.fontSize -= 1;
+  });
+  canvas.renderAll();
+}
+
+function toggleColorOfSelections() {
+  let selectedItems;
+  if (canvas.getActiveObject().getObjects) {
+    selectedItems = canvas.getActiveObject().getObjects();
+  } else {
+    selectedItems = canvas.getActiveObjects();
+  }
+  selectedItems.forEach(function (item) {
+    const lightColor = '#aaa';
+    const darkColor = '#000';
+    if (item.getCurrentCharColor() != lightColor) {
+      item.setColor(lightColor);
+    } else {
+      item.setColor(darkColor);
+    }
   });
   canvas.renderAll();
 }
